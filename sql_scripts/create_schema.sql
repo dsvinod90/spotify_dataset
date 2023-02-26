@@ -60,6 +60,6 @@ track_uri VARCHAR,
 artist_uri VARCHAR,
 track_name VARCHAR,
 album_uri VARCHAR,
-album_name VARCHAR,
+album_name VARCHAR
 );
 
