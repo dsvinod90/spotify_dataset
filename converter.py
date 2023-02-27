@@ -6,7 +6,8 @@ import pandas as pd
 
 playlist_keys = ['pid',
                  'name',
-                 'collaborative']
+                 'collaborative',
+                 'duration_ms']
 
 track_keys = ['pos',
               'artist_name',
@@ -41,19 +42,22 @@ class Converter:
         playlist_dataframe = pd.DataFrame(row_list)
         return(playlist_dataframe)
     
-    def _prepare_csv_file(self, input_data: pd.DataFrame, output_file_name: str):
-        input_data.to_csv(output_file_name, header=True, index=False)
+    def _prepare_csv_file(self, input_data: pd.DataFrame, output_file_name: str, index: int):
+        if index == 0:
+            input_data.to_csv(output_file_name, header=True, index=False)
+        else:
+            input_data.to_csv(output_file_name, mode='a', header=False, index=False)
     
     def execute(self, data_input_folder: str) -> None:
-        for input_file in os.scandir(data_input_folder):
+        for index, input_file in enumerate(os.scandir(data_input_folder)):
             input_data = self._get_all_playlists(input_file.path)
             playlist_dataframe = self._prepare_dataframe(input_data)
-            self._prepare_csv_file(playlist_dataframe, f"output/{input_file.name[0:len(input_file.name)-5]}.csv")
+            self._prepare_csv_file(playlist_dataframe, f"output/output_playlist_data.csv", index)
 
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         input_data_folder = sys.argv[1]
-        Converter().execute('/Users/vinoddalavai/LocalDocuments/CSCI620_BigData/Project/data')
+        Converter().execute(input_data_folder)
     else:
         print('Invalid input')
