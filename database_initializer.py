@@ -11,6 +11,11 @@ track_columns = ['track_uri', 'track_name', 'album_uri']
 album_columns = ['album_uri','album_name']
 
 class DatabaseInitializer:
+    def __init__(self, hostname: str, dbname: str) -> None:
+        self.connection = psycopg2.connect(host=hostname, dbname=dbname)
+        self.connection.set_session(autocommit=True)
+        self.cursor = self.connection.cursor()
+        self.data = None
     def __init__(self, hostname: str, dbname: str, username: str, password: str) -> None:
         self.connection = psycopg2.connect(host=hostname, dbname=dbname, user = username, password = password )
         self.connection.set_session(autocommit=True)
@@ -59,10 +64,17 @@ class DatabaseInitializer:
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 5:
+    if len(sys.argv) == 3:
+        hostname = sys.argv[1]
+        dbname = sys.argv[2]
+        db_init = DatabaseInitializer(hostname, dbname)
+        db_init.execute()
+    elif len(sys.argv) == 5:
         hostname = sys.argv[1]
         dbname = sys.argv[2]
         username = sys.argv[3]
         password = sys.argv[4]
         db_init = DatabaseInitializer(hostname, dbname, username, password)
         db_init.execute()
+    else:
+        print("invalid input")

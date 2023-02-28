@@ -8,6 +8,7 @@ INTO album
 FROM temp_album;
 
 ALTER TABLE album
-ADD PRIMARY KEY (album_uri);
+ADD COLUMN album_id SERIAL
+ADD PRIMARY KEY (album_id);
 
 DROP TABLE temp_album;
