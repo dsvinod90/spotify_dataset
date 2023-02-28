@@ -16,12 +16,7 @@ class DatabaseInitializer:
         self.connection.set_session(autocommit=True)
         self.cursor = self.connection.cursor()
         self.data = None
-    def __init__(self, hostname: str, dbname: str, username: str, password: str) -> None:
-        self.connection = psycopg2.connect(host=hostname, dbname=dbname, user = username, password = password )
-        self.connection.set_session(autocommit=True)
-        self.cursor = self.connection.cursor()
-        self.data = None
-        
+ 
     def _execute_script(self, script_path: str) -> None:
         self.cursor.execute(open(script_path, 'r').read())
     
@@ -68,13 +63,6 @@ if __name__ == '__main__':
         hostname = sys.argv[1]
         dbname = sys.argv[2]
         db_init = DatabaseInitializer(hostname, dbname)
-        db_init.execute()
-    elif len(sys.argv) == 5:
-        hostname = sys.argv[1]
-        dbname = sys.argv[2]
-        username = sys.argv[3]
-        password = sys.argv[4]
-        db_init = DatabaseInitializer(hostname, dbname, username, password)
         db_init.execute()
     else:
         print("invalid input")
