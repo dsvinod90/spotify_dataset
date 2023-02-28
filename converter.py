@@ -19,8 +19,9 @@ track_keys = ['pos',
 
 class Converter:
     def _get_all_playlists(self, input_data_file: str) -> None:
-        return json.load(open(input_data_file))['playlists']
+        return json.load(open(input_data_file, encoding= "utf-8"))['playlists']
 
+    
     def _prepare_dataframe(self, input_data: Dict) -> None:
         row_list = []
         for playlist in input_data:

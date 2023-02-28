@@ -8,10 +8,11 @@ output_playlist_data = 'output/output_playlist_data.csv'
 playlist_columns = ['pid', 'name', 'collaborative', 'duration_ms']
 artist_columns = ['artist_uri', 'artist_name']
 track_columns = ['track_uri', 'track_name', 'album_uri']
+album_columns = ['album_uri','album_name']
 
 class DatabaseInitializer:
-    def __init__(self, hostname: str, dbname: str) -> None:
-        self.connection = psycopg2.connect(host=hostname, dbname=dbname)
+    def __init__(self, hostname: str, dbname: str, username: str, password: str) -> None:
+        self.connection = psycopg2.connect(host=hostname, dbname=dbname, user = username, password = password )
         self.connection.set_session(autocommit=True)
         self.cursor = self.connection.cursor()
         self.data = None
@@ -25,6 +26,11 @@ class DatabaseInitializer:
 
     def _create_temp_csv_file(self, temp_file_path: str, table_columns: List) -> None:
         self.data.to_csv(temp_file_path, columns=table_columns, index=False, header=True)
+
+    def _populate_album_table(self) -> None:
+        self._create_temp_csv_file('temp/temp_album.csv', album_columns)
+        self._execute_script('sql_scripts/populate_album.sql')
+        
 
     def _populate_playlist_table(self) -> None:
         self._create_temp_csv_file('temp/temp_playlist.csv', playlist_columns)
@@ -44,16 +50,19 @@ class DatabaseInitializer:
         self._populate_playlist_table()
         self._populate_artist_table()
         self._populate_track_table()
+        self._populate_album_table()
         self._clean_temp_folder()
-    
+        
     def _clean_temp_folder(self):
         for file in os.scandir('temp'):
             os.remove(file)
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 3:
+    if len(sys.argv) == 5:
         hostname = sys.argv[1]
         dbname = sys.argv[2]
-        db_init = DatabaseInitializer(hostname, dbname)
+        username = sys.argv[3]
+        password = sys.argv[4]
+        db_init = DatabaseInitializer(hostname, dbname, username, password)
         db_init.execute()
