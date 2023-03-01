@@ -1,13 +1,14 @@
 import os
 import sys
-from typing import List
 import psycopg2
 import pandas as pd
 
+from typing import List
+from scripts import Scripts
+from table_columns import TableColumns
+from temp_files import TempFiles
+
 output_playlist_data = 'output/output_playlist_data.csv'
-playlist_columns = ['pid', 'name', 'collaborative', 'duration_ms']
-artist_columns = ['artist_uri', 'artist_name']
-track_columns = ['track_uri', 'track_name', 'album_uri']
 
 class DatabaseInitializer:
     def __init__(self, hostname: str, dbname: str) -> None:
@@ -26,29 +27,18 @@ class DatabaseInitializer:
     def _create_temp_csv_file(self, temp_file_path: str, table_columns: List) -> None:
         self.data.to_csv(temp_file_path, columns=table_columns, index=False, header=True)
 
-    def _populate_playlist_table(self) -> None:
-        self._create_temp_csv_file('temp/temp_playlist.csv', playlist_columns)
-        self._execute_script('sql_scripts/populate_playlist.sql')
-    
-    def _populate_artist_table(self) -> None:
-        self._create_temp_csv_file('temp/temp_artist.csv', artist_columns)
-        self._execute_script('sql_scripts/populate_artist.sql')
-
-    def _populate_track_table(self) -> None:
-        self._create_temp_csv_file('temp/temp_track.csv', track_columns)
-        self._execute_script('sql_scripts/populate_track.sql')
+    def _populate_table(self, input_sql_script: str, required_columns: str, temp_csv_file: str) -> None:
+        self._create_temp_csv_file(temp_csv_file, required_columns)
+        self._execute_script(input_sql_script)
+        os.remove(temp_csv_file)
 
     def execute(self):
-        self._execute_script('sql_scripts/create_schema.sql')
+        self._execute_script(Scripts.SCHEMA.value)
         self._prepare_dataframe()
-        self._populate_playlist_table()
-        self._populate_artist_table()
-        self._populate_track_table()
-        self._clean_temp_folder()
-    
-    def _clean_temp_folder(self):
-        for file in os.scandir('temp'):
-            os.remove(file)
+        self._populate_table(Scripts.PLAYLIST.value, TableColumns.PLAYLIST.value, TempFiles.PLAYLIST.value)
+        self._populate_table(Scripts.ARTIST.value, TableColumns.ARTIST.value, TempFiles.ARTIST.value)
+        self._populate_table(Scripts.TRACK.value, TableColumns.TRACK.value, TempFiles.TRACK.value)
+        self._populate_table(Scripts.TRACK_PLAYLIST.value, TableColumns.TRACK_PLAYLIST.value, TempFiles.TRACK_PLAYLIST.value)
 
 
 if __name__ == '__main__':

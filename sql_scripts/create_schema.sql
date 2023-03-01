@@ -37,11 +37,8 @@ CREATE TABLE IF NOT EXISTS temp_playlist(
 -- FOREIGN KEY (artist) REFERENCES artist(artistid)
 -- );
 -- 
--- CREATE TABLE IF NOT EXISTS track_playlist(
--- track int,
--- playlist int,
--- position int,
--- PRIMARY KEY (track, playlist),
--- FOREIGN KEY (track) REFERENCES track(trackid),
--- FOREIGN KEY (playlist) REFERENCES playlist(playlistid)
--- );
+CREATE TABLE IF NOT EXISTS track_playlist(
+    track CHAR(255),
+    playlist INT,
+    position SMALLINT
+);
