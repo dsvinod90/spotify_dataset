@@ -11,8 +11,8 @@ track_columns = ['track_uri', 'track_name', 'album_uri']
 album_columns = ['album_uri','album_name']
 
 class DatabaseInitializer:
-    def __init__(self, hostname: str, dbname: str) -> None:
-        self.connection = psycopg2.connect(host=hostname, dbname=dbname)
+    def __init__(self, hostname: str, dbname: str, username = "postgres", password = "9908805095") -> None:
+        self.connection = psycopg2.connect(host=hostname, dbname=dbname, user = username, password = password)
         self.connection.set_session(autocommit=True)
         self.cursor = self.connection.cursor()
         self.data = None
