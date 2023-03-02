@@ -34,7 +34,7 @@ For example, `mpd.slice.0-999` contains the first 1,000 playlists, note the use 
 
 ### Relational Model: ER Diagram
 
-![ER Diagram]()
+![ER Diagram](https://github.com/dsvinod90/spotify_dataset/blob/main/docs/Spotify%20Dataset%20ER%20Diagram.png)
 
 
 ### Relational Model: Loading Data
