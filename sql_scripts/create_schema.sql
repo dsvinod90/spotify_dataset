@@ -15,30 +15,24 @@ CREATE TABLE IF NOT EXISTS temp_artist(
 );
 
 CREATE TABLE IF NOT EXISTS temp_playlist(
-    playlistid VARCHAR (10),
+    playlist_id VARCHAR (10),
     name VARCHAR,
     collab VARCHAR (10),
     duration VARCHAR (10)
 );
 
--- CREATE TABLE IF NOT EXISTS album_artist(
--- album int,
--- artist int,
--- PRIMARY KEY (album, artist),
--- FOREIGN KEY (album) REFERENCES album(albumid),
--- FOREIGN KEY (artist) REFERENCES artist(artistid)
--- );
--- 
--- CREATE TABLE IF NOT EXISTS track_artist(
--- track int,
--- artist int,
--- PRIMARY KEY (track, artist),
--- FOREIGN KEY (track) REFERENCES track(trackid),
--- FOREIGN KEY (artist) REFERENCES artist(artistid)
--- );
--- 
+CREATE TABLE IF NOT EXISTS temp_album_artist(
+    album_uri CHAR(255),
+    artist_uri CHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS temp_track_artist(
+    track_uri CHAR(255),
+    artist_uri CHAR(255)
+);
+ 
 CREATE TABLE IF NOT EXISTS track_playlist(
-    track CHAR(255),
-    playlist INT,
-    position SMALLINT
+    track_uri CHAR(255),
+    playlist_id CHAR(20),
+    position CHAR(20)
 );
