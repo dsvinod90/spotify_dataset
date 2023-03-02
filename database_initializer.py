@@ -7,6 +7,7 @@ from typing import List
 from scripts import Scripts
 from table_columns import TableColumns
 from temp_files import TempFiles
+from time_logger import TimeLogger
 
 output_playlist_data = 'output/output_playlist_data.csv'
 
@@ -20,6 +21,7 @@ class DatabaseInitializer:
                 self.connection = psycopg2.connect(host=hostname, dbname=dbname)
             self.connection.set_session(autocommit=True)
             self.cursor = self.connection.cursor()
+            self.timer = TimeLogger()
             self.data = None
         except(Exception, psycopg2.OperationalError) as error:
             print(error)
@@ -33,16 +35,20 @@ class DatabaseInitializer:
             sys.exit(1)
     
     def _prepare_dataframe(self) -> None:
+        self.timer.start()
         self.data = pd.read_csv(output_playlist_data, encoding='ISO-8859-1')
         self.data.drop_duplicates(subset=None, keep="first", inplace=True)
+        self.timer.end()
 
     def _create_temp_csv_file(self, temp_file_path: str, table_columns: List) -> None:
         self.data.to_csv(temp_file_path, columns=table_columns, index=False, header=True)
 
     def _populate_table(self, input_sql_script: str, required_columns: str, temp_csv_file: str) -> None:
+        self.timer.start()
         self._create_temp_csv_file(temp_csv_file, required_columns)
         self._execute_script(input_sql_script)
         os.remove(temp_csv_file)
+        self.timer.end()
 
     def execute(self):
         print('Creating schema ...')

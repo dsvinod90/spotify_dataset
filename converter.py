@@ -5,9 +5,13 @@ import pandas as pd
 
 from typing import Dict
 from table_columns import TableColumns
+from time_logger import TimeLogger
 
 
 class Converter:
+    def __init__(self):
+        self.timer = TimeLogger()
+        
     def _get_all_playlists(self, input_data_file: str) -> None:
         with open(input_data_file, 'r') as input_file:
             return json.load(input_file)['playlists']
@@ -41,10 +45,12 @@ class Converter:
     
     def execute(self, data_input_folder: str) -> None:
         print('Converting json files to csv file ...')
+        self.timer.start()
         for index, input_file in enumerate(os.scandir(data_input_folder)):
             input_data = self._get_all_playlists(input_file.path)
             playlist_dataframe = self._prepare_dataframe(input_data)
             self._prepare_csv_file(playlist_dataframe, f"output/output_playlist_data.csv", index)
+        self.timer.end()
 
 
 if __name__ == '__main__':
