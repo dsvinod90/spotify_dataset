@@ -10,4 +10,8 @@ FROM temp_track_artist;
 ALTER TABLE track_artist
 ADD PRIMARY KEY(track_uri, artist_uri);
 
+ALTER TABLE track_artist
+ADD CONSTRAINT fk_track_uri FOREIGN KEY track_uri REFERENCES track(track_uri)
+ADD CONSTRAINT fk_album_uri FOREIGN KEY album_uri REFERENCES album(album_uri)
+
 DROP TABLE temp_track_artist;
