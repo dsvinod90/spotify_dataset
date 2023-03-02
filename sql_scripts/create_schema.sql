@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS album(
     name VARCHAR
 );
 
-CREATE TABLE IF NOT EXISTS track(
+CREATE TABLE IF NOT EXISTS temp_track(
     track_uri CHAR(255),
     name VARCHAR,
     album_uri CHAR(255)
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS temp_track_artist(
     artist_uri CHAR(255)
 );
  
-CREATE TABLE IF NOT EXISTS track_playlist(
+CREATE TABLE IF NOT EXISTS temp_track_playlist(
     track_uri CHAR(255),
     playlist_id CHAR(20),
     position CHAR(20)
