@@ -4,4 +4,8 @@ COPY track_playlist
 	CSV HEADER;
 
 ALTER TABLE track_playlist
-ADD PRIMARY KEY(track, playlist, position);
+ALTER COLUMN playlist_id TYPE INT USING playlist_id::INTEGER,
+ALTER COLUMN position TYPE SMALLINT USING position::SMALLINT;
+
+ALTER TABLE track_playlist
+ADD PRIMARY KEY(track_uri, playlist_id, position);
