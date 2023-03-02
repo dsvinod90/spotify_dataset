@@ -18,7 +18,9 @@ This README file will only contain basic descriptions of each phases, for detail
 - Ramprasad Kokkula | rk1668
 - Samson Zhang | sz7651
 
-## Dataset
+## Phase I
+
+### Dataset
 
 Our dataset contains information on one million playlists created by Spotify users. The dataset is sourced from Kaggle, which can be found [here](https://www.kaggle.com/datasets/adityak80/spotify-millions-playlist).
 
@@ -30,12 +32,12 @@ Each of the json files follow the naming pattern of:
 
 For example, `mpd.slice.0-999` contains the first 1,000 playlists, note the use of 0-based numbering.
 
-## Relational Model: ER Diagram
+### Relational Model: ER Diagram
 
 ![ER Diagram]()
 
 
-## Relational Model: Loading Data
+### Relational Model: Loading Data
 
 The overview of data loading is explained in these steps:
 
