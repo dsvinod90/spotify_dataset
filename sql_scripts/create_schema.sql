@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS album(
+CREATE TABLE IF NOT EXISTS temp_album(
     album_uri CHAR(255),
     name VARCHAR
 );
