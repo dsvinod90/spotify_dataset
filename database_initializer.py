@@ -1,3 +1,10 @@
+"""
+DatabaseInitializer.py
+CSCI-620: Project - Phase1
+
+__author__ = "Vinod Dalavai, Samson Zhang, Ramprasad Kokkula"
+"""
+
 import os
 import sys
 import psycopg2
@@ -13,6 +20,14 @@ output_playlist_data = 'output/output_playlist_data.csv'
 
 class DatabaseInitializer:
     def __init__(self, hostname: str, dbname: str, user=None, password=None) -> None:
+        """Constructor for this program
+        Args:
+            hostname (str): Hostname of the machine
+            dbname (str): Database name
+            user (_type_, optional): Username for the databse. Defaults to None.
+            password (_type_, optional): Password for the database. Defaults to None.
+        """
+
         print('Connecting to database ...')
         try:
             if user and password:
@@ -28,6 +43,11 @@ class DatabaseInitializer:
             sys.exit(1)
         
     def _execute_script(self, script_path: str) -> None:
+        """Executes sql scripts
+        Args:
+            script_path (str): Path to the sql script to be executed
+        """
+
         try:
             self.cursor.execute(open(script_path, 'r').read())
         except(Exception, psycopg2.DatabaseError) as error:
@@ -35,15 +55,28 @@ class DatabaseInitializer:
             sys.exit(1)
     
     def _prepare_dataframe(self) -> None:
+        """Prepares dataframe based on the csv input file
+        """
         self.timer.start()
         self.data = pd.read_csv(output_playlist_data, encoding='ISO-8859-1')
         self.data.drop_duplicates(subset=None, keep="first", inplace=True)
         self.timer.end()
 
     def _create_temp_csv_file(self, temp_file_path: str, table_columns: List) -> None:
+        """Creates the temp csv files required to be used for bulk insert into tables in the database.
+        Args:
+            temp_file_path (str): path to store the temp csv file generated
+            table_columns (List): columns to be included in the csv file
+        """
         self.data.to_csv(temp_file_path, columns=table_columns, index=False, header=True)
 
     def _populate_table(self, input_sql_script: str, required_columns: str, temp_csv_file: str) -> None:
+        """Populates the database tables
+        Args:
+            input_sql_script (str): SQL script to be executed
+            required_columns (str): columns required to be included in the table
+            temp_csv_file (str): path to the csv file that will be generated for creating the tables
+        """
         self.timer.start()
         self._create_temp_csv_file(temp_csv_file, required_columns)
         self._execute_script(input_sql_script)
@@ -51,6 +84,8 @@ class DatabaseInitializer:
         self.timer.end()
 
     def execute(self):
+        """Executes the program
+        """
         print('Creating schema ...')
         self._execute_script(Scripts.SCHEMA.value)
         print('Preparing in-memory dataframe ...')
