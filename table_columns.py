@@ -1,6 +1,16 @@
+"""
+TableColumns.py
+CSCI-620: Project - Phase1
+
+__author__ = "Vinod Dalavai, Samson Zhang, Ramprasad Kokkula"
+"""
+
 from enum import Enum
 
 class TableColumns(Enum):
+    """Enum for table columns
+    """
+
     PLAYLIST = ['pid', 'name', 'collaborative', 'playlist_duration_ms']
     ARTIST = ['artist_uri', 'artist_name']
     ALBUM = ['album_uri', 'album_name']

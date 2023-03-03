@@ -1,3 +1,10 @@
+"""
+TimeLogger.py
+CSCI-620: Project - Phase1
+
+__author__ = "Vinod Dalavai, Samson Zhang, Ramprasad Kokkula"
+"""
+
 import time
 
 
