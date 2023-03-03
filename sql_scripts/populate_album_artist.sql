@@ -29,7 +29,6 @@ FROM
 WHERE album_artist.album_uri = temp.album_uri AND album_artist.artist_uri = temp.artist_uri;
 
 ALTER TABLE album_artist
-DROP CONSTRAINT album_artist_pkey,
 DROP COLUMN album_uri,
 DROP COLUMN artist_uri,
 ADD PRIMARY KEY(album_id, artist_id),

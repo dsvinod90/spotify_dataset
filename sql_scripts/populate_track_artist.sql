@@ -29,7 +29,6 @@ FROM
 WHERE track_artist.track_uri = temp.track_uri AND track_artist.artist_uri = temp.artist_uri;
 
 ALTER TABLE track_artist
-DROP CONSTRAINT track_artist_pkey,
 DROP COLUMN track_uri,
 DROP COLUMN artist_uri,
 ADD CONSTRAINT fk_track_artist_track FOREIGN KEY(track_id) REFERENCES track(id),

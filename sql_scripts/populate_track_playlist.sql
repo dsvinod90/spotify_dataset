@@ -9,7 +9,7 @@ ALTER COLUMN position TYPE SMALLINT USING position::SMALLINT;
 
 SELECT
 	track.id as track_id,
-	temp_track_playlist.playlist_id as playlist_id
+	temp_track_playlist.playlist_id as playlist_id,
 	temp_track_playlist.position as position
 INTO track_playlist
 FROM

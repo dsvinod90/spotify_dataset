@@ -21,7 +21,10 @@ class Converter:
         for playlist in input_data:
             p_row = {}
             for key in TableColumns.PLAYLIST_KEYS.value:
-                p_row[key] = playlist[key]
+                if key == 'duration_ms':
+                    p_row['playlist_duration_ms'] = playlist[key]
+                else:
+                    p_row[key] = playlist[key]
             for track in playlist['tracks']:
                 t_row = {}
                 for key in TableColumns.TRACK_KEYS.value:
@@ -31,6 +34,8 @@ class Converter:
                         t_row[key] = track[key][15:]
                     elif key == 'album_uri':
                         t_row[key] = track[key][14:]
+                    elif key == 'duration_ms':
+                        t_row['track_duration_ms'] = track[key]
                     else:
                         t_row[key] = track[key]
                 row_list.append(p_row | t_row)

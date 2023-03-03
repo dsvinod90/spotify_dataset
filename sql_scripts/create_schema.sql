@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS album(
 CREATE TABLE IF NOT EXISTS temp_track(
     track_uri CHAR(255),
     name VARCHAR,
-    album_uri CHAR(255)
+    album_uri CHAR(255),
+    duration VARCHAR(15)
 );
 
 CREATE TABLE IF NOT EXISTS temp_artist(
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS temp_playlist(
     playlist_id VARCHAR (10),
     name VARCHAR,
     collab VARCHAR (10),
-    duration VARCHAR (10)
+    duration VARCHAR (15)
 );
 
 CREATE TABLE IF NOT EXISTS temp_album_artist(
